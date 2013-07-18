@@ -20,10 +20,10 @@ function setup()
     saveProjectInfo("Author", "Hyro Vitaly Protago")
     saveProjectInfo("Description", DESCRIPTION)
     --/*
-    ag = AutoGist(PROJECTNAME,DESCRIPTION,VERSION)
-    ag:backup(true)
+    -- ag = AutoGist(PROJECTNAME,DESCRIPTION,VERSION)
+    -- ag:backup(true)
     --*/
-    Dropbox.saveProject(PROJECTNAME, "AllFighters-Codea-Project")
+    -- Dropbox.saveProject(PROJECTNAME, "AllFighters-Codea-Project")
     displayMode(FULLSCREEN_NO_BUTTONS)
     
     parameter.boolean("SHOW_SNAP", false)
