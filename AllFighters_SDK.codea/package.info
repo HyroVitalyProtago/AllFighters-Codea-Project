@@ -1,0 +1,7 @@
+return {
+	"IO",
+	"Screen_MainMenu",
+	"Screen_Fighter",
+	"Screen_Sprite",
+	"ToolScreen"
+}
