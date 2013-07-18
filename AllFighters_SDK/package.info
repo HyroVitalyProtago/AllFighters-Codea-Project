@@ -1,4 +1,5 @@
 return {
+	"Config",
 	"IO",
 	"Screen_MainMenu",
 	"Screen_Fighter",
