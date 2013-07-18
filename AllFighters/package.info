@@ -17,4 +17,5 @@ return {
 	"Game",
 	"ComportementTakeshiYamamoto",
 	"MakeTakeshiYamamoto",
+	"Main"
 }
