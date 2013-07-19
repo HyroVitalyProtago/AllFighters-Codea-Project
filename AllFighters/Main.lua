@@ -50,8 +50,6 @@ function setup()
     ]]--
 end
 
-setup()
-
 function draw()
     FPS = FPS*.9+.1/DeltaTime
     
