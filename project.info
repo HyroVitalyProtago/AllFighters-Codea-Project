@@ -1,1 +1,1 @@
-return {"AllFighters", "AllFighters_SDK", "BaseGameEngine", "Tools"}
+return {"Tools", "BaseGameEngine", "AllFighters", "AllFighters_SDK"}
