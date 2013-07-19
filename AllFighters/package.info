@@ -16,6 +16,5 @@ return {
 	"Room",
 	"Game",
 	"ComportementTakeshiYamamoto",
-	"MakeTakeshiYamamoto",
-	"Main"
+	"MakeTakeshiYamamoto"
 }
