@@ -15,7 +15,7 @@ TAKESHI_YAMAMOTO = "TakeshiYamamoto/"
 
 SPRITES_LOCATION = "Dropbox:" .. SPRITES
 
-function setup()
+-- function setup()
 
     saveProjectInfo("Author", "Hyro Vitaly Protago")
     saveProjectInfo("Description", DESCRIPTION)
@@ -31,3 +31,4 @@ function setup()
     game = Game()
     mkeyboard = Keyboard()
     MakeTakeshiYamamoto.run()
+-- end
