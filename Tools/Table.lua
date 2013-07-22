@@ -1,3 +1,4 @@
+-- Table
 
 function table.copy(tab, n, m)
     local results = {}
@@ -39,4 +40,20 @@ function table.print(tbl, indent)
             print(formatting .. tostring(v))
         end
     end
+end
+
+function table.explode(div, str)
+    if div == "" then
+        return false
+    end
+    
+    local pos = 0
+    local arr = {}
+
+    for st, sp in function() return string.find(str, div, pos, true) end do
+        arr[#arr+1] = string.sub(str, pos, st-1)
+        pos = sp + 1
+    end
+    arr[#arr+1] = string.sub(str, pos)
+    return arr
 end

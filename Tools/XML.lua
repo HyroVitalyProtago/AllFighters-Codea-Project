@@ -1,3 +1,5 @@
+-- XML
+
 XML = class()
 
 -- @Author : Hyro Vitaly Protago

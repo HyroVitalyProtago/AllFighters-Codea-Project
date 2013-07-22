@@ -8,7 +8,7 @@ function IText:init(args)
     args.width = args.width or 300
     args.height = args.height or 50
     
-    -- User
+    -- User config
     self.number = args.number or false
     if self.number then
         self.min = args.min
@@ -23,8 +23,9 @@ function IText:init(args)
     self.disabled = args.disabled
     self.required = args.required
     
-    -- Style
+    -- Style config
     self.textColor = args.textColor or color(0, 0, 0, 255)
+    self.placeholderColor = args.placeholderColor or color(180, 180, 180, 255)
     self.backgroundColor = args.backgroundColor or color(255, 255, 255, 255)
     self.font = args.font or "Helvetica-Light"
     self.fontSize = args.fontSize or args.height/2
@@ -63,8 +64,7 @@ function IText:update()
     pmesh.vertices = {vec3(0,0,0),vec3(w,0,0),vec3(w,h,0),vec3(0,0,0),vec3(0,h,0),vec3(w,h,0)}
     pmesh.texCoords = {vec2(0,0),vec2(1,0), vec2(1,1), vec2(0,0),vec2(0,1), vec2(1,1)}
     pmesh:setColors(255,255,255,255)
-    local spr = image(w, h)
-    setContext(spr)
+    local spr = image(w, h, function(w, h)
         if self:focus() then
             fill(self.focusColor)
         else
@@ -73,7 +73,7 @@ function IText:update()
         stroke(self.strokeColor)
         strokeWidth(self.strokeWidth)
         rect(0, 0, w, h)
-    setContext()
+    end)
     pmesh.texture = spr
     self.mesh = pmesh
     ---------------------------------------------------------------------------------------------------------------
@@ -86,27 +86,27 @@ function IText:update()
         })
     end
     ---------------------------------------------------------------------------------------------------------------
-    -------------------------------------------------- Text -------------------------------------------------
+    ----------------------------------------------- Placeholder ---------------------------------------------------
     if self.placeholder then
         self._placeholder = Mesh.makeTextMesh(self.placeholder, {
             font=self.font,
             fontSize=self.fontSize,
-            fill=self.textColor
+            fill=self.placeholderColor
         })
     end
     ---------------------------------------------------------------------------------------------------------------
     -------------------------------------------------- Cursor -------------------------------------------------
-    local spr = image(2, h*0.8)
-    setContext(spr)
+    local spr = image(2, h*0.8, function(w,h)
         noStroke()
         fill(self.cursorColor)
-        rect(0,0,spr.width, spr.height)
-    setContext()
+        rect(0,0,w,h)
+    end)
     self._cursor = Mesh.makeMesh(spr, {})
     ---------------------------------------------------------------------------------------------------------------
 end
 
 function IText:draw()
+    pushStyle()
     -- if not isKeyboardShowing() and self:focus() then showKeyboard() end
     
     if self._text then
@@ -118,7 +118,10 @@ function IText:draw()
     local value = self.value
     font(self.font)
     fontSize(self.fontSize)
+    
     valueW, valueH = textSize(string.sub(value, 0, self.cursor))
+
+    -- To-Upgrade
     self._cursor.pos.x = self.pos.x - self.dim.w/2 + self._cursor.dim.w/2 + 10 + valueW
     self._cursor.pos.y = self.pos.y - self.dim.h/2 + self._cursor.dim.h/1.6
     self._cursor.pos.z = self.pos.z + 10
@@ -127,6 +130,7 @@ function IText:draw()
     if self._text then self._text:draw() end
     if self._placeholder and string.len(self:val()) == 0 then self._text:draw() end
     if self:focus() and self:showCursor() then self._cursor:draw() end
+    popStyle()
 end
 
 function IText:showCursor()
@@ -164,9 +168,7 @@ function IText:focusin()
     showKeyboard()
 end
 
-function IText:focusout()
-    --hideKeyboard()
-end
+function IText:focusout() end
 
 function IText:touched(touch, firstElementTouch)
     if touch.state == ENDED then
@@ -202,7 +204,7 @@ function IText:touched(touch, firstElementTouch)
     end
 end
 
-function IText:onchange() end
+function IText:onchange() end -- @Overwrite (declench if value change)
 
 function IText:keyboard(key)
     if self:focus() then

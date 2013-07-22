@@ -6,9 +6,7 @@ function ScreenTransition:init(name, screenFrom, screenTo)
     self.screenTo = screenTo
     self.isended = false
 end
-function ScreenTransition:start()
-    --self.screenFrom.gravity = false
-end
+function ScreenTransition:start() end -- @Overwrite
 function ScreenTransition:draw()
     self.screenFrom:draw()
     self.screenTo:draw()

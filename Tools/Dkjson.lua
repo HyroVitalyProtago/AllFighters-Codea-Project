@@ -1,3 +1,5 @@
+-- Dkjson
+
 -- Module options:
   local always_try_using_lpeg = false
   local register_global_module_table = true

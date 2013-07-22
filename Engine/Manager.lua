@@ -2,41 +2,58 @@ Manager = class()
 
 Manager.FPS = 0
 
-function Manager:init(screen, viewTouches, customConfig)
+function Manager:init(screen, madeWithCodea, viewTouches, viewFps)
+    assert(screen ~= nil, "Manager can't start without screen...")
+
     self.currentState = nil
+
     self.viewTouches = viewTouches or false
     self.touches = {}
-    self.customConfig = customConfig
+
+    self.viewFps = self.viewFps or false
     
-    --hideKeyboard()
-    
-    if screen then self:setCurrentState(MadeWithCodea(screen)) end
+    madeWithCodea = madeWithCodea or true
+    if madeWithCodea then 
+        self:setCurrentState(MadeWithCodea(screen))
+    else
+        self:setCurrentState(screen)
+    end
 end
 
 function Manager:draw()
     Manager.FPS = Manager.FPS*.9+.1/DeltaTime
     
-    background(0, 0, 0, 255)
-    noFill()
-    stroke(255, 255, 255, 255)
-    strokeWidth(5)
-    font("HelveticaNeue-Light")
-    if self.customConfig then self.customConfig() end
-    
     if self.currentState == nil then
         return
     end
     
-    self.currentState:draw()
-    if self.currentState:isEnded() then
-        self.currentState:ended()
+    pushMatrix()
+    pushStyle()
+        self.currentState:draw()
+        if self.currentState:isEnded() then
+            self.currentState:ended()
+        end
+    popStyle()
+    popMatrix()
+
+    if (self.viewFps) then
+        pushStyle()
+            local w, h = 50, 50
+            fill(0,0,0)
+            rect(WIDTH - w/2, HEIGHT - h/2, w, h)
+
+            fill(255,255,255)
+            text(FPS,WIDTH - w/2, HEIGHT - h/2)
+        popStyle()
     end
     
     for k,touch in pairs(self.touches) do
-        if (self.viewTouches) then 
+        if (self.viewTouches) then
             math.randomseed(touch.id)
-            fill(math.random(255),math.random(255),math.random(255))
-            ellipse(touch.x, touch.y, 100, 100)
+            pushStyle()
+                fill(math.random(255),math.random(255),math.random(255))
+                ellipse(touch.x, touch.y, 100, 100)
+            popStyle()
         end
         if self.currentState ~= nil then
             self.currentState:touched(touch)
