@@ -11,3 +11,10 @@ function MadeWithCodea:start()
         manager:setCurrentState(Transition_Translate(self, self.screenTo))
     end)
 end
+
+function MadeWithCodea:__index(k)
+	Screen.__index(self, k)
+end
+function MadeWithCodea:__newindex(k, v)
+	Screen.__newindex(self, k, v)
+end
