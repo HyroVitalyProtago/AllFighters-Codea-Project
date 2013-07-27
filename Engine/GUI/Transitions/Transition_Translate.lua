@@ -14,17 +14,17 @@ function Transition_Translate:start()
     ScreenTransition.start(self)
     
     if self.direction == 0 then
-        self.screenTo.x = WIDTH
+        self.screenTo.pos.x = WIDTH
     elseif self.direction == 1 then
-        self.screenTo.y = HEIGHT
+        self.screenTo.pos.y = HEIGHT
     elseif self.direction == 2 then
-        self.screenTo.x = -WIDTH
+        self.screenTo.pos.x = -WIDTH
     elseif self.direction == 3 then
-        self.screenTo.y = -HEIGHT
+        self.screenTo.pos.y = -HEIGHT
     end
 
-    tween(self.time, self.screenFrom, {x=-self.screenTo.x, y=-self.screenTo.y}, self.tweenEasing)
-    tween(self.time, self.screenTo, {x=0, y=0}, self.tweenEasing,
+    tween(self.time, self.screenFrom.pos, {x=-self.screenTo.pos.x, y=-self.screenTo.pos.y}, self.tweenEasing)
+    tween(self.time, self.screenTo.pos, {x=0, y=0}, self.tweenEasing,
     function()
         self.isended = true
     end)
