@@ -24,6 +24,8 @@ function Transition_Translate:start()
     end
     
     print("GETTER OK")
+    print("screenTo" .. self.screenTo.y)
+    print("screenFrom" .. self.screenFrom.y)
 
     tween(self.time, self.screenFrom, {x=-self.screenTo.x, y=-self.screenTo.y}, self.tweenEasing)
     tween(self.time, self.screenTo, {x=0, y=0}, self.tweenEasing,
