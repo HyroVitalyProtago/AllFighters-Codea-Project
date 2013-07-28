@@ -12,7 +12,7 @@ function Manager:init(screen, madeWithCodea, viewTouches, viewFps)
 
     self.viewFps = self.viewFps or false
     
-    madeWithCodea = madeWithCodea or true
+    if madeWithCodea == nil then madeWithCodea = true end
     if madeWithCodea then 
         self:setCurrentState(MadeWithCodea(screen))
     else
