@@ -127,9 +127,11 @@ function Screen:touched(touch)
         return a.pos.z > b.pos.z
     end)
     local focusAvailable = true
-    focusAvailable = self:btouched(touch, focusAvailable) or false
+    focusAvailable = not self:btouched(touch, focusAvailable)
     for _, v in pairs(tbl) do
-        focusAvailable = not v:touched(touch, focusAvailable) -- touched return true if object catch the focus
+        if v:touched(touch, focusAvailable) then -- touched return true if object catch the focus
+            focusAvailable = false
+        end
     end
     self:atouched(touch, focusAvailable)
 end
