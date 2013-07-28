@@ -13,7 +13,7 @@ function Sprite.makeSprite(func,w,h)
 end
 
 function Sprite.drawTextSprite(str,args,getCoords)
-    local fontA = args.font or "HelveticaNeue-UltraLight"
+    local fontA = args.font or "HelveticaNeue-Light"
     local size = args.fontSize or 80
     local fillA = args.fill or color(255, 255, 255, 255)
     local textModeA = args.textMode or CORNER
