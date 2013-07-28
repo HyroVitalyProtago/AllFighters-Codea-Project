@@ -119,17 +119,19 @@ end
 function Screen:isEnded() return false end -- @Overwrite
 function Screen:ended() end -- @Overwrite
 
-function Screen:utouched(touch, focusAvailable) end -- custom draw with view of screen
+function Screen:btouched(touch, focusAvailable) end -- custom touch before element
+function Screen:atouched(touch, focusAvailable) end -- custom touch after element
 function Screen:touched(touch)
     local tbl = table.copy(self.meshes)
     table.sort(tbl, function(a, b)
         return a.pos.z > b.pos.z
     end)
     local focusAvailable = true
+    focusAvailable = self:btouched(touch, focusAvailable) or false
     for _, v in pairs(tbl) do
         focusAvailable = not v:touched(touch, focusAvailable) -- touched return true if object catch the focus
     end
-    self:utouched(touch, focusAvailable)
+    self:atouched(touch, focusAvailable)
 end
 
 function Screen:keyboard(key)
