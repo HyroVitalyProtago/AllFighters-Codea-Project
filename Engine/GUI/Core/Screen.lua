@@ -37,6 +37,8 @@ function Screen:init(name)
     
     self.visible = true
     
+    self.focusKeeped = false
+
     -- self.gravity = false
 end
 
@@ -126,16 +128,33 @@ function Screen:touched(touch)
     table.sort(tbl, function(a, b)
         return a.pos.z > b.pos.z
     end)
+
     local focusAvailable = true
-    if self:btouched(touch, focusAvailable) then
-        focusAvailable = false
-    end
+    local focusCatched, focusKeeped = self:btouched(touch, focusAvailable)
+
+    if focusCatched then focusAvailable = false end
+    if focusKeeped and focusKeeped == 1 then self.focusKeeped = true end
+
+    local fa
     for _, v in pairs(tbl) do
-        if v:touched(touch, focusAvailable) then -- touched return true if object catch the focus
-            focusAvailable = false
+        -- touched return true if object catch the focus; 1 if object keep the focus, -1 if object return the focus
+        fa = focusAvailable
+        if (self.focusKeeped) then fa = false end
+        focusCatched, focusKeeped = v:touched(touch, fa) 
+        if focusCatched then focusAvailable = false end
+        if focusKeeped and focusKeeped == 1 then
+            assert(focusKeeped == 1 and not self.focusKeeped, "Focus already keeped...")
+            self.focusKeeped = true
+        end
+        if focusKeeped and focusKeeped == -1 then
+            assert(focusKeeped == -1 and self.focusKeeped, "Impossible to give back focus because it was not keeped...")
+            self.focusKeeped = false
         end
     end
-    self:atouched(touch, focusAvailable)
+
+    fa = focusAvailable
+    if (self.focusKeeped) then fa = false end
+    self:atouched(touch, fa)
 end
 
 function Screen:keyboard(key)

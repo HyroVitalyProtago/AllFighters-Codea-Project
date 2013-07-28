@@ -140,15 +140,14 @@ end
 -- return true if the object want catch the focus, else false
 function Mesh:touched(touch, focusAvailable)
     if (touch.state == ENDED and self:isTouched(touch) and focusAvailable) then
-        self:ctouched()
-        return true
+        return self:ctouched()
     end
     return false
 end
 
 -- In most of case, this function is the default behavior of an object, 
 -- but if you have a really special object, you can directly @Overwrite Mesh:touched(touch, focusAvailable)
-function Mesh:ctouched() end -- @Overwrite
+function Mesh:ctouched() return false end -- @Overwrite
 
 function Mesh:keyboard(key) end -- @Overwrite
 
