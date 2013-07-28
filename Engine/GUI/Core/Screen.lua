@@ -166,7 +166,7 @@ function Screen:keyboard(key)
 end
 
 function Screen:removeMesh(mesh)
-    for _,v in pairs(self.meshes) do
+    for k,v in pairs(self.meshes) do
         if v == mesh then
             table.remove(self.meshes, k)
         end
