@@ -1,13 +1,5 @@
 Mesh = class()
 
--- Sugar for easier manipulation of animations on all attributs
-local CLASS = Mesh
-CLASS.sugars = {
-    width = "dim.w", height = "dim.h", w = "dim.w", h = "dim.h",
-    x = "pos.x", y = "pos.y", z = "pos.z", posX = "pos.x", posY = "pos.y", posZ = "pos.z",
-    angleX = "angle.x", angleY = "angle.y", angleZ = "angle.z"
-}
-
 function Mesh:init(pmesh, args) -- args {width, height [, mode(CENTER|CORNER), x, y, z]}
     if args == nil then
         args = {}
@@ -160,44 +152,3 @@ function Mesh:ctouched() end -- @Overwrite
 
 function Mesh:keyboard(key) end -- @Overwrite
 
-----------------------------------------------------------------------
--------------------------- Sugars system -----------------------------
-----------------------------------------------------------------------
-
--- try sugars(CLASS)
-
-function CLASS:__index(k)
-    if CLASS[k] then return CLASS[k] end
-    for sugarKey, key in pairs(CLASS.sugars) do
-        if k == sugarKey then
-            local arr = table.explode(".", key)
-            if #arr == 1 then
-                return self[key]
-            else
-                local result = self
-                for _,v in pairs(arr) do
-                    result = result[v]
-                end
-                return result
-            end
-        end
-    end
-end
-function CLASS:__newindex(k, v)
-    for sugarKey, key in pairs(CLASS.sugars) do
-        if k == sugarKey then
-            local arr = table.explode(".", key)
-            if #arr == 1 then
-                rawset(self, key, v)
-            else
-                local result = self
-                for _,v in pairs(arr) do
-                    beforeLastResult = result
-                    result = result[v]
-                end
-                rawset(beforeLastResult, arr[#arr], v)
-            end
-        end
-    end
-    rawset(self, k, v)
-end

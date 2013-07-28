@@ -17,23 +17,23 @@ function Transition_Miniature:start()
     ScreenTransition.start(self)
     
     if self.direction == 0 then
-        self.screenTo.x = WIDTH
+        self.screenTo.pos.x = WIDTH
     elseif self.direction == 1 then
-        self.screenTo.y = HEIGHT
+        self.screenTo.pos.y = HEIGHT
     elseif self.direction == 2 then
-        self.screenTo.x = -WIDTH
+        self.screenTo.pos.x = -WIDTH
     elseif self.direction == 3 then
-        self.screenTo.y = -HEIGHT
+        self.screenTo.pos.y = -HEIGHT
     end
-    self.screenTo.z = -900 - self.distanceOfFall
+    self.screenTo.pos.z = -900 - self.distanceOfFall
     
-    tween(self.times[1], self.screenFrom, {z=-900 - self.distanceOfFall}, self.tweensEasing[1],
+    tween(self.times[1], self.screenFrom.pos, {z=-900 - self.distanceOfFall}, self.tweensEasing[1],
     function()
         local easing = self.tweensEasing[2]
-        tween(self.times[2], self.screenFrom, {x=-self.screenTo.x, y=-self.screenTo.y}, easing)
-        tween(self.times[2], self.screenTo, {x=0, y=0}, easing,
+        tween(self.times[2], self.screenFrom.pos, {x=-self.screenTo.x, y=-self.screenTo.y}, easing)
+        tween(self.times[2], self.screenTo.pos, {x=0, y=0}, easing,
         function()
-            tween(self.times[3], self.screenTo, {z=-900}, self.tweensEasing[3],
+            tween(self.times[3], self.screenTo.pos, {z=-900}, self.tweensEasing[3],
             function()
                 self.isended = true
             end)
