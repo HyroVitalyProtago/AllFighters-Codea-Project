@@ -133,7 +133,14 @@ function Screen:touched(touch)
     local focusCatched, focusKeeped = self:btouched(touch, focusAvailable and not self.focusKeeped)
 
     if focusCatched then focusAvailable = false end
-    if focusKeeped and focusKeeped == 1 then self.focusKeeped = true end
+    if focusKeeped and focusKeeped == 1 then
+        assert(focusKeeped == 1 and not self.focusKeeped, "Focus already keeped...")
+        self.focusKeeped = true
+    end
+    if focusKeeped and focusKeeped == -1 then
+        assert(focusKeeped == -1 and self.focusKeeped, "Impossible to give back focus because it was not keeped...")
+        self.focusKeeped = false
+    end
 
     for _, v in pairs(tbl) do
         -- touched return true if object catch the focus; 1 if object keep the focus, -1 if object return the focus
