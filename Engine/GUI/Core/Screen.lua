@@ -165,10 +165,23 @@ function Screen:keyboard(key)
     end
 end
 
+function Screen:removeMeshes(meshes)
+    for k,v in pairs(meshes) do
+        for k2,v2 in pairs(self.meshes) do
+            if v == v2 then
+                table.remove(self.meshes, k)
+                break
+            end
+        end
+    end
+end
+
+
 function Screen:removeMesh(mesh)
     for k,v in pairs(self.meshes) do
         if v == mesh then
             table.remove(self.meshes, k)
+            break
         end
     end
 end
