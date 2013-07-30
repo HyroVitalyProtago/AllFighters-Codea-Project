@@ -156,7 +156,15 @@ function Screen:touched(touch)
         end
     end
 
-    self:atouched(touch, focusAvailable and not self.focusKeeped)
+    focusCatched, focusKeeped = self:atouched(touch, focusAvailable and not self.focusKeeped)
+    if focusKeeped and focusKeeped == 1 then
+        assert(focusKeeped == 1 and not self.focusKeeped, "Focus already keeped...")
+        self.focusKeeped = true
+    end
+    if focusKeeped and focusKeeped == -1 then
+        assert(focusKeeped == -1 and self.focusKeeped, "Impossible to give back focus because it was not keeped...")
+        self.focusKeeped = false
+    end
 end
 
 function Screen:keyboard(key)
