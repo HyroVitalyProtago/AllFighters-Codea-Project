@@ -5,11 +5,11 @@ function image(width, height, fdraw)
     local img = ___image(width, height)
     if fdraw then
         setContext(img)
-        -- pushMatrix()
-        -- pushStyle()
+        pushMatrix()
+        pushStyle()
         fdraw(width, height)
-        -- popStyle()
-        -- popMatrix()
+        popStyle()
+        popMatrix()
         setContext()
     end
     return img
