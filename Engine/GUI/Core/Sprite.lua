@@ -19,7 +19,7 @@ function Sprite.drawTextSprite(str,args,getCoords)
     local textModeA = args.textMode or CORNER
     local textWrap = args.textWrapWidth or -1
     local align = args.textAlign or LEFT
-    -- pushStyle()
+    pushStyle()
     smooth()
     font(fontA)
     fontSize(size)
@@ -31,7 +31,7 @@ function Sprite.drawTextSprite(str,args,getCoords)
     if not getCoords then
         text(str,0,0)
     end
-    -- popStyle()
+    popStyle()
     if getCoords then
         return txtSize
     end
