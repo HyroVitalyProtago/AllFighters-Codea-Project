@@ -1,17 +1,5 @@
 Sprite = class()
 
-function Sprite.makeSprite(func,w,h)
-    local img = image(w,h)
-    
-    setContext(img)
-    func()
-    setContext()
-    
-    --saveImage("Documents:AAA", img)
-    
-    return img
-end
-
 function Sprite.drawTextSprite(str,args,getCoords)
     local fontA = args.font or "HelveticaNeue-Light"
     local size = args.fontSize or 80
@@ -19,6 +7,7 @@ function Sprite.drawTextSprite(str,args,getCoords)
     local textModeA = args.textMode or CORNER
     local textWrap = args.textWrapWidth or -1
     local align = args.textAlign or LEFT
+    pushStyle()
     smooth()
     font(fontA)
     fontSize(size)
@@ -26,8 +15,14 @@ function Sprite.drawTextSprite(str,args,getCoords)
     textMode(textModeA)
     textWrapWidth(textWrap)
     textAlign(align)
-    if not getCoords then text(str,0,0)
-    else return textSize(str) end
+    local txtSize = textSize(str)
+    if not getCoords then
+        text(str,0,0)
+    end
+    popStyle()
+    if getCoords then
+        return txtSize
+    end
 end
 
 function Sprite.makeTextSprite(str,args)
