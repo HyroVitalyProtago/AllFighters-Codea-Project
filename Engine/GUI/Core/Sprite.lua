@@ -1,17 +1,5 @@
 Sprite = class()
 
-function Sprite.makeSprite(func,w,h)
-    local img = image(w,h)
-    
-    setContext(img)
-    func()
-    setContext()
-    
-    --saveImage("Documents:AAA", img)
-    
-    return img
-end
-
 function Sprite.drawTextSprite(str,args,getCoords)
     local fontA = args.font or "HelveticaNeue-Light"
     local size = args.fontSize or 80
@@ -40,5 +28,5 @@ end
 function Sprite.makeTextSprite(str,args)
     local w,h = Sprite.drawTextSprite(str,args,true)
     local f = function() Sprite.drawTextSprite(str,args) end
-    return Sprite.makeSprite(f,w,h)
+    return image(w,h,f)
 end
