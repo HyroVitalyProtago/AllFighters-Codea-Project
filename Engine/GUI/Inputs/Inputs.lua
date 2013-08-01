@@ -82,8 +82,7 @@ function IText:update()
     if self.value then
         print('-- IText : value = '..self.value..' --')
         print('font = '..self.font,
-            'fontSize = '..self.fontSize,
-            'fill = '..self.textColor)
+            'fontSize = '..self.fontSize)
         self._text = Mesh.makeTextMesh(self.value, {
             font=self.font,
             fontSize=self.fontSize,
