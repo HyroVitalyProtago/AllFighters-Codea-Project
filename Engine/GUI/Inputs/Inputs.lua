@@ -45,7 +45,11 @@ function IText:init(args)
     
     -- Back
     self._focus = false
-    self._hover = false
+    self._hover = Mesh.makeMesh(image(args.width, args.height, function(width, height)
+        fill(0,0,0,200)
+        rect(0,0,width,height)
+    end))
+    self._hover:hide()
     if self.value == nil then
         self.cursor = 0
     else
@@ -107,13 +111,11 @@ function IText:update()
 end
 
 function IText:hoverin()
-    self._hover = true
-    self.mesh:setColors(0,0,0,200)
+    self._hover:show()
 end
 
 function IText:hoverout()
-    self._hover = false
-    self.mesh:setColors(255,255,255,255)
+    self._hover:hide()
 end
 
 function IText:draw()
@@ -140,6 +142,7 @@ function IText:draw()
     if self._text then self._text:draw() end
     if self._placeholder and string.len(self:val()) == 0 then self._text:draw() end
     if self:focus() and self:showCursor() then self._cursor:draw() end
+    self._hover:draw()
     popStyle()
 end
 
@@ -212,7 +215,7 @@ function IText:touched(touch, focusAvailable)
                 self:focus(false)
             end
         end
-    elseif self:isTouched(touch) and focusAvailable and not self._hover then
+    elseif self:isTouched(touch) and focusAvailable and self._hover.alpha < 255 then
         self:hoverin()
     end
 end
