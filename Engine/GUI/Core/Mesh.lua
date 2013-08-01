@@ -73,10 +73,15 @@ function Mesh:draw()
     self.mesh:draw()
 end
 
-function Mesh.makeMesh(spr, args) -- Make a plane with a sprite texture
-    
-    if args == nil then
-        args = {}
+function Mesh.makeMesh(spr, _args) -- Make a plane with a sprite texture
+
+    local args = {}
+
+    -- for not touch at origin table
+    if _args ~= nil then
+        for k,v in pairs(_args) do
+            args[k] = v
+        end
     end
     
     local w,h = spriteSize(spr)
