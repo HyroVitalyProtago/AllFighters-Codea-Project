@@ -21,9 +21,10 @@ function IText:init(args)
     end
     self.placeholder = args.placeholder
     self.value = args.value or ""
-    self.disabled = args.disabled
+    self.readonly = args.readonly -- TODO
     self.required = args.required
-    
+    self._nextField = args._nextField -- field selected when next tab
+
     -- Style config
     self.textColor = args.textColor or color(0, 0, 0, 255)
     self.placeholderColor = args.placeholderColor or color(180, 180, 180, 255)
@@ -245,7 +246,12 @@ end
 
 function IText:keyboard(key)
     if self:focus() then
-        if string.byte(key) == 10 then -- enter
+        if string.byte(key) == 9 then -- tabulation
+            if self._nextField then
+                self:focus(false)
+                self._nextField:focus(true)
+            end
+        elseif string.byte(key) == 10 then -- enter
             self:focus(false)
             hideKeyboard()
         elseif string.byte(key) == nil then -- retour
