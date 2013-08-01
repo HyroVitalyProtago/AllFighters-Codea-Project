@@ -16,7 +16,8 @@ function IText:init(args)
     else
         self.maxlength = args.maxlength
         self.minlength = args.minlength
-        self.pattern = args.pattern
+        self.alphabet = args.alphabet -- authorize inputs
+        self.pattern = args.pattern -- validation
     end
     self.placeholder = args.placeholder
     self.value = args.value or ""
@@ -105,6 +106,16 @@ function IText:update()
     ---------------------------------------------------------------------------------------------------------------
 end
 
+function IText:hoverin()
+    self._hover = true
+    self.mesh:setColors(0,0,0,200)
+end
+
+function IText:hoverout()
+    self._hover = false
+    self.mesh:setColors(255,255,255,255)
+end
+
 function IText:draw()
     pushStyle()
     -- if not isKeyboardShowing() and self:focus() then showKeyboard() end
@@ -158,6 +169,7 @@ function IText:focus(bool)
 end
 
 function IText:focusin()
+    self:hoverout()
     self.lastValue = self.value
     if self.value == nil then
         self.cursor = 0
@@ -169,9 +181,9 @@ end
 
 function IText:focusout() end
 
-function IText:touched(touch, firstElementTouch)
+function IText:touched(touch, focusAvailable)
     if touch.state == ENDED then
-        if self:isTouched(touch) and firstElementTouch then
+        if self:isTouched(touch) and focusAvailable then
             if self:focus() then
                 showKeyboard()
                 -- location current cursor
@@ -200,6 +212,8 @@ function IText:touched(touch, firstElementTouch)
                 self:focus(false)
             end
         end
+    elseif self:isTouched(touch) and focusAvailable and not self._hover then
+        self:hoverin()
     end
 end
 
