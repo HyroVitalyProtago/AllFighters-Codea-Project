@@ -21,8 +21,9 @@ function IText:init(args)
     end
     self.placeholder = args.placeholder
     self.value = args.value or ""
-    self.disabled = args.disabled
+    self.readonly = args.readonly -- TODO
     self.required = args.required
+    self._nextField = args._nextField -- field selected when next tab
     
     -- Style config
     self.textColor = args.textColor or color(0, 0, 0, 255)
@@ -32,7 +33,7 @@ function IText:init(args)
     self.fontSize = args.fontSize or args.height/2
     self.cursorColor = args.cursorColor or color(0, 0, 255, 255)
     self.focusColor = args.focusColor or color(230, 230, 230, 255)
-    -- self.hoverColor = args.hoverColor or color(0, 0, 255, 255)
+    self.hoverColor = args.hoverColor or color(0, 0, 0, 70)
     self.strokeColor = args.strokeColor or color(0, 0, 0, 255)
     self.strokeWidth = args.strokeWidth or 3
     self.cursorSpeed = args.cursorSpeed or 0.25
@@ -46,10 +47,11 @@ function IText:init(args)
     -- Back
     self._focus = false
     self._hover = Mesh.makeMesh(image(args.width, args.height, function(width, height)
-        fill(0,0,0,100)
+        if not readonly then fill(self.hoverColor)
+        else fill(color(0,0,0,25)) end
         rect(0,0,width,height)
     end))
-    self._hover:hide()
+    if not readonly then self._hover:hide() end
     if self.value == nil then
         self.cursor = 0
     else
@@ -111,11 +113,11 @@ function IText:update()
 end
 
 function IText:hoverin()
-    self._hover:show()
+    if not readonly then self._hover:show() end
 end
 
 function IText:hoverout()
-    self._hover:hide()
+    if not readonly then self._hover:hide() end
 end
 
 function IText:draw()
@@ -229,8 +231,27 @@ end
 
 function IText:onchange() end -- @Overwrite (declench if value change)
 
+function IText:isValid()
+    if self.number then
+        local val = tonumber(self:val())
+        if (self.min and val < self.min) then return false, "minimum value : "..self.min end
+        if (self.max and val > self.min) then return false, "maximum value : "..self.max end
+    else
+        if self.pattern and string.match(self:val(), self.pattern) == nil then return false, "pattern : "..self.pattern end
+        if self.minlength and string.len(self:val()) < self.minlength then return false, "minlength : "..self.minlength end
+        if self.maxlength and string.len(self:val()) > self.maxlength then return false, "maxlength : "..self.maxlength end
+    end
+    if self.required and (self:val() == nil or string.len(self:val()) == 0) then return false, "required" end
+    return true
+end
+
 function IText:keyboard(key)
-    if self:focus() then
+    if self:focus() and not self.readonly then
+        if string.byte(key) == 9 then -- tabulation
+            if self._nextField then
+                self:focus(false)
+                self._nextField:focus(true)
+            end
         if string.byte(key) == 10 then -- enter
             self:focus(false)
             hideKeyboard()
@@ -242,6 +263,14 @@ function IText:keyboard(key)
             if self.number and string.match(key, "%d") == nil and key ~= "." and key ~= "-" then
                 -- popover || alert number...
                 alert("This could be a number...")
+                return
+            end
+            if self.alphabet and string.match(key, self.alphabet) == nil then
+                -- popover
+                -- alert("This key is unauthorized...") -- TODO
+                return
+            end
+            if (string.len(self:val()) == self.maxlength) then
                 return
             end
             self:val(string.sub(self:val(), 0, self.cursor) .. key .. string.sub(self:val(), self.cursor+1, string.len(self:val())))
