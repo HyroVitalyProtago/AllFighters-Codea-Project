@@ -38,6 +38,9 @@ function Manager:draw()
 
     if (self.viewFps) then
         pushStyle()
+            fontSize(20)
+            font("Helvetica-Light")
+
             local w, h = 50, 50
             fill(0,0,0)
             rect(WIDTH - w/2, HEIGHT - h/2, w, h)
