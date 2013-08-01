@@ -21,8 +21,8 @@ function IText:init(args)
     end
     self.placeholder = args.placeholder
     self.value = args.value or ""
-    self.readonly = args.readonly -- TODO
-    self.required = args.required
+    self.readonly = args.readonly or false
+    self.required = args.required or false
     self._nextField = args._nextField -- field selected when next tab
     
     -- Style config
@@ -270,10 +270,9 @@ function IText:keyboard(key)
             end
             if self.alphabet and string.match(key, self.alphabet) == nil then
                 -- popover
-                -- alert("This key is unauthorized...") -- TODO
                 return
             end
-            if (string.len(self:val()) == self.maxlength) then
+            if self.maxlength and string.len(self:val()) == self.maxlength then
                 return
             end
             self:val(string.sub(self:val(), 0, self.cursor) .. key .. string.sub(self:val(), self.cursor+1, string.len(self:val())))
