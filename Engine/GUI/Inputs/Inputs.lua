@@ -219,8 +219,10 @@ function IText:touched(touch, focusAvailable)
                 self:focus(false)
             end
         end
-    elseif self:isTouched(touch) and focusAvailable and self._hover.alpha < 255 then
+    elseif self:isTouched(touch) then
         self:hoverin()
+    else
+        self:hoverout()
     end
 end
 
