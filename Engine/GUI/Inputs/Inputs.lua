@@ -141,7 +141,7 @@ function IText:draw()
     
     Mesh.draw(self)
     if self._text then self._text:draw() end
-    if self._placeholder and string.len(self:val()) == 0 then self._text:draw() end
+    if self._placeholder and string.len(self:val()) == 0 then self._placeholder:draw() end
     if self:focus() and self:showCursor() then self._cursor:draw() end
 
     self._hover.pos.x = self.pos.x
