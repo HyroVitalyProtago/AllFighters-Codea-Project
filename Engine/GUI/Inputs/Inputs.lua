@@ -47,11 +47,14 @@ function IText:init(args)
     -- Back
     self._focus = false
     self._hover = Mesh.makeMesh(image(args.width, args.height, function(width, height)
-        if not readonly then fill(self.hoverColor)
-        else fill(color(0,0,0,25)) end
+        if not self.readonly then
+            fill(self.hoverColor)
+        else
+            fill(color(0,0,0,25))
+        end
         rect(0,0,width,height)
     end))
-    if not readonly then self._hover:hide() end
+    if not self.readonly then self._hover:hide() end
     if self.value == nil then
         self.cursor = 0
     else
@@ -113,11 +116,11 @@ function IText:update()
 end
 
 function IText:hoverin()
-    if not readonly then self._hover:show() end
+    if not self.readonly then self._hover:show() end
 end
 
 function IText:hoverout()
-    if not readonly then self._hover:hide() end
+    if not self.readonly then self._hover:hide() end
 end
 
 function IText:draw()
