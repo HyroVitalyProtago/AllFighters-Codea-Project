@@ -166,7 +166,7 @@ function IText:showCursor()
 end
 
 function IText:val(newval)
-    if newval then self.value = newval else return self.value end
+    if newval then self.value = newval else return self.value or "" end
 end
 
 function IText:focus(bool)
