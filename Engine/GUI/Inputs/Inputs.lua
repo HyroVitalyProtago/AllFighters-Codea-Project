@@ -57,7 +57,6 @@ function IText:init(args)
 end
 
 function IText:update()
-    print('-- IText : UPDATE --')
     -------------------------------------------------- Background -------------------------------------------------
     local pmesh = mesh()
     w = self.dim.w
@@ -80,10 +79,6 @@ function IText:update()
     ---------------------------------------------------------------------------------------------------------------
     -------------------------------------------------- Text -------------------------------------------------
     if self.value then
-        print('-- IText : value = '..self.value..' --')
-        print('font = '..self.font,
-            'fontSize = '..self.fontSize,
-            'fill = '..self.textColor)
         self._text = Mesh.makeTextMesh(self.value, {
             font=self.font,
             fontSize=self.fontSize,
@@ -132,10 +127,7 @@ function IText:draw()
     self._cursor.pos.z = self.pos.z + 10
     
     Mesh.draw(self)
-    if self._text then 
-        print('DRAW TEXT')
-        self._text:draw()
-    end
+    if self._text then self._text:draw() end
     if self._placeholder and string.len(self:val()) == 0 then self._text:draw() end
     if self:focus() and self:showCursor() then self._cursor:draw() end
     popStyle()
