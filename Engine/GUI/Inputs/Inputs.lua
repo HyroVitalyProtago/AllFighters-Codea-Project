@@ -123,7 +123,7 @@ function IText:draw()
 
     -- To-Upgrade
     self._cursor.pos.x = self.pos.x - self.dim.w/2 + self._cursor.dim.w/2 + 10 + valueW
-    self._cursor.pos.y = self.pos.y - self.dim.h/2 + self._cursor.dim.h/1.6
+    self._cursor.pos.y = self.pos.y -- - self.dim.h/2 + self._cursor.dim.h/1.6
     self._cursor.pos.z = self.pos.z + 10
     
     Mesh.draw(self)
