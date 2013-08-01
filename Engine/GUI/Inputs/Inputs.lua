@@ -46,7 +46,7 @@ function IText:init(args)
     -- Back
     self._focus = false
     self._hover = Mesh.makeMesh(image(args.width, args.height, function(width, height)
-        fill(0,0,0,200)
+        fill(0,0,0,100)
         rect(0,0,width,height)
     end))
     self._hover:hide()
@@ -143,6 +143,8 @@ function IText:draw()
     if self._placeholder and string.len(self:val()) == 0 then self._text:draw() end
     if self:focus() and self:showCursor() then self._cursor:draw() end
 
+    self._hover.pos.x = self.pos.x
+    self._hover.pos.y = self.pos.y
     self._hover.pos.z = self.pos.z + 15
     self._hover:draw()
     popStyle()
