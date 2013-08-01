@@ -229,6 +229,20 @@ end
 
 function IText:onchange() end -- @Overwrite (declench if value change)
 
+function IText:isValid()
+    if self.number then
+        local val = tonumber(self:val())
+        if (self.min and val < self.min) then return false, "minimum value : "..self.min end
+        if (self.max and val > self.min) then return false, "maximum value : "..self.max end
+    else
+        if self.pattern and string.match(self:val(), self.pattern) == nil then return false, "pattern : "..self.pattern end
+        if self.minlength and string.len(self:val()) < self.minlength then return false, "minlength : "..self.minlength end
+        if self.maxlength and string.len(self:val()) > self.maxlength then return false, "maxlength : "..self.maxlength end
+    end
+    if self.required and (self:val() == nil or string.len(self:val()) == 0) then return false, "required" end
+    return true
+end
+
 function IText:keyboard(key)
     if self:focus() then
         if string.byte(key) == 10 then -- enter
