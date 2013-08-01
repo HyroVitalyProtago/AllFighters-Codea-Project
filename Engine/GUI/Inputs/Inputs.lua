@@ -221,7 +221,7 @@ function IText:touched(touch, focusAvailable)
                 self:focus(false)
             end
         end
-    elseif self:isTouched(touch) then
+    elseif self:isTouched(touch) and not self:focus() then
         self:hoverin()
     else
         self:hoverout()
