@@ -171,12 +171,12 @@ end
 function IText:focus(bool)
     if bool == nil then return self._focus end
     if bool and not self._focus then self:focusin() elseif not bool and self._focus then self:focusout() end
-    self:hoverout()
     self._focus = bool
     self:update()
 end
 
 function IText:focusin()
+    self:hoverout()
     self.lastValue = self.value
     if self.value == nil then
         self.cursor = 0
@@ -192,6 +192,7 @@ function IText:touched(touch, focusAvailable)
     if touch.state == ENDED then
         if self:isTouched(touch) and focusAvailable then
             if self:focus() then
+                self:hoverout()
                 showKeyboard()
                 -- location current cursor
                 local len = string.len(self:val())
