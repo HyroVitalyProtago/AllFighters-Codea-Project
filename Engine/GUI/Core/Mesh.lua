@@ -55,6 +55,7 @@ end
 function Mesh:draw()
     if not self.mesh then return end
     
+    pushMatrix()
     self.mesh:setColors(color(255,255,255,self.alpha))
     
     if self.mode == CENTER then
@@ -71,6 +72,7 @@ function Mesh:draw()
     self._matrix = modelMatrix() * viewMatrix() * projectionMatrix() -- use for touched
     
     self.mesh:draw()
+    popMatrix()
 end
 
 function Mesh.makeMesh(spr, _args) -- Make a plane with a sprite texture
