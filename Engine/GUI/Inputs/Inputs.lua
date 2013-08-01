@@ -82,7 +82,8 @@ function IText:update()
         self._text = Mesh.makeTextMesh(self.value, {
             font=self.font,
             fontSize=self.fontSize,
-            fill=self.textColor
+            fill=self.textColor,
+            z=self.pos.z+5
         })
     end
     ---------------------------------------------------------------------------------------------------------------
@@ -91,7 +92,8 @@ function IText:update()
         self._placeholder = Mesh.makeTextMesh(self.placeholder, {
             font=self.font,
             fontSize=self.fontSize,
-            fill=self.placeholderColor
+            fill=self.placeholderColor,
+            z=self.pos.z+5
         })
     end
     ---------------------------------------------------------------------------------------------------------------
@@ -101,7 +103,7 @@ function IText:update()
         fill(self.cursorColor)
         rect(0,0,w,h)
     end)
-    self._cursor = Mesh.makeMesh(spr, {})
+    self._cursor = Mesh.makeMesh(spr, {z=self.pos.z+5})
     ---------------------------------------------------------------------------------------------------------------
 end
 
