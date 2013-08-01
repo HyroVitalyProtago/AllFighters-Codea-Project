@@ -264,6 +264,14 @@ function IText:keyboard(key)
                 alert("This could be a number...")
                 return
             end
+            if self.alphabet and string.match(key, self.alphabet) == nil then
+                -- popover
+                return
+            end
+            if self.maxlength and string.len(self:val()) == self.maxlength then
+                -- popover
+                return
+            end
             self:val(string.sub(self:val(), 0, self.cursor) .. key .. string.sub(self:val(), self.cursor+1, string.len(self:val())))
             self.cursor = self.cursor + 1
         end
