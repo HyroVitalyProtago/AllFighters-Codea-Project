@@ -128,6 +128,12 @@ function IText:draw()
         self._text.pos.y = self.pos.y
         self._text.pos.z = self.pos.z + 5
     end
+
+    if self._placeholder then
+        self._placeholder.pos.x = self.pos.x - self.dim.w/2 + self._placeholder.dim.w/2 + 10
+        self._placeholder.pos.y = self.pos.y
+        self._placeholder.pos.z = self.pos.z + 5
+    end
     
     local value = self.value
     font(self.font)
