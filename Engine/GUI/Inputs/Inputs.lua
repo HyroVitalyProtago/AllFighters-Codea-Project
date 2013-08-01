@@ -96,7 +96,7 @@ function IText:update()
     end
     ---------------------------------------------------------------------------------------------------------------
     -------------------------------------------------- Cursor -------------------------------------------------
-    local spr = image(2, h*0.8, function(w,h)
+    local spr = image(2, h*0.7, function(w,h)
         noStroke()
         fill(self.cursorColor)
         rect(0,0,w,h)
@@ -121,9 +121,8 @@ function IText:draw()
     
     valueW, valueH = textSize(string.sub(value, 0, self.cursor))
 
-    -- To-Upgrade
     self._cursor.pos.x = self.pos.x - self.dim.w/2 + self._cursor.dim.w/2 + 10 + valueW
-    self._cursor.pos.y = self.pos.y -- - self.dim.h/2 + self._cursor.dim.h/1.6
+    self._cursor.pos.y = self.pos.y
     self._cursor.pos.z = self.pos.z + 10
     
     Mesh.draw(self)
