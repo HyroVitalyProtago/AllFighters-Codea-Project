@@ -32,7 +32,7 @@ function ISelect:init(args)
     self.fontSize = args.fontSize or args.height/2
     self.hoverColor = args.hoverColor or color(0, 0, 0, 70)
     self.strokeColor = args.strokeColor or color(0, 0, 0, 255)
-    self.strokeWidth = args.strokeWidth or 3
+    self.strokeWidth = args.strokeWidth or 1
 
     -- Back
     self._hover = Mesh.makeMesh(image(args.width, args.height, function(width, height)
@@ -41,8 +41,23 @@ function ISelect:init(args)
     end))
     self._hover:hide()
     self._focus = false
-
-    Mesh.init(self, nil, args)
+	
+	-------------------------------------------------- Background -------------------------------------------------
+    local pmesh = mesh()
+    w = self.dim.w
+    h = self.dim.h
+    pmesh.vertices = {vec3(0,0,0),vec3(w,0,0),vec3(w,h,0),vec3(0,0,0),vec3(0,h,0),vec3(w,h,0)}
+    pmesh.texCoords = {vec2(0,0),vec2(1,0), vec2(1,1), vec2(0,0),vec2(0,1), vec2(1,1)}
+    pmesh:setColors(255,255,255,255)
+    local spr = image(w, h, function(w, h)
+		fill(self.backgroundColor)
+        stroke(self.strokeColor)
+        strokeWidth(self.strokeWidth)
+        rect(0, 0, w, h)
+    end)
+    pmesh.texture = spr
+    Mesh.init(self, pmesh, args)
+    ---------------------------------------------------------------------------------------------------------------
     self:focusout()
 end
 
@@ -61,30 +76,14 @@ function ISelect:focus(bool)
 end
 
 function ISelect:focusin()
+	self:hoverout()
+	hideKeyboard()
+
+	-- display list of options
 end
 
 function ISelect:focusout()
-	-------------------------------------------------- Background -------------------------------------------------
-    local pmesh = mesh()
-    w = self.dim.w
-    h = self.dim.h
-    pmesh.vertices = {vec3(0,0,0),vec3(w,0,0),vec3(w,h,0),vec3(0,0,0),vec3(0,h,0),vec3(w,h,0)}
-    pmesh.texCoords = {vec2(0,0),vec2(1,0), vec2(1,1), vec2(0,0),vec2(0,1), vec2(1,1)}
-    pmesh:setColors(255,255,255,255)
-    local spr = image(w, h, function(w, h)
-        if self:focus() then
-            fill(self.focusColor)
-        else
-            fill(self.backgroundColor)
-        end
-        stroke(self.strokeColor)
-        strokeWidth(self.strokeWidth)
-        rect(0, 0, w, h)
-    end)
-    pmesh.texture = spr
-    self.mesh = pmesh
-    ---------------------------------------------------------------------------------------------------------------
-    -------------------------------------------------- Text -------------------------------------------------
+	-------------------------------------------------- Text -------------------------------------------------
     self._text = Mesh.makeTextMesh(self.value, {
         font=self.font,
         fontSize=self.fontSize,
