@@ -44,8 +44,8 @@ function ISelect:init(args)
 	
 	-------------------------------------------------- Background -------------------------------------------------
     local pmesh = mesh()
-    w = self.dim.w
-    h = self.dim.h
+    w = args.width
+    h = args.height
     pmesh.vertices = {vec3(0,0,0),vec3(w,0,0),vec3(w,h,0),vec3(0,0,0),vec3(0,h,0),vec3(w,h,0)}
     pmesh.texCoords = {vec2(0,0),vec2(1,0), vec2(1,1), vec2(0,0),vec2(0,1), vec2(1,1)}
     pmesh:setColors(255,255,255,255)
