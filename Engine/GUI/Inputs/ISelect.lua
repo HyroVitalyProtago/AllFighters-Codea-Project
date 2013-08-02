@@ -8,10 +8,12 @@ function ISelect:init(args)
     args.height = args.height or 50
 
     -- User config
-    assert(self.list, "List missing...")
+    assert(args.list, "List missing...")
     self.list = args.list
-    self.size = args.size or -1 -- define number max of elements displayed
-    self.value = nil
+    self.size = args.size or -1 -- define number max of elements displayed (-1 for infinite)
+    local iterateFunc, table = pairs(self.list)
+    local backValue, frontValue = iterateFunc(table)
+    self.value = backValue
     --[[
     	-- backValue = frontValue
 		example = {
@@ -39,10 +41,6 @@ function ISelect:init(args)
     end))
     self._hover:hide()
     self._focus()
-
-    local iterateFunc, table = pairs(self.list)
-    local backValue, frontValue = iterateFunc(table)
-    self._value = backValue
 
     Mesh.init(self, nil, args)
     self:focusout()
