@@ -48,11 +48,11 @@ function ISelect:init(args)
     self:focusout()
 end
 
-function IText:hoverin()
+function ISelect:hoverin()
     self._hover:show()
 end
 
-function IText:hoverout()
+function ISelect:hoverout()
     self._hover:hide()
 end
 
