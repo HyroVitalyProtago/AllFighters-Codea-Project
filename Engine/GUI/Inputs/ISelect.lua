@@ -40,7 +40,7 @@ function ISelect:init(args)
         rect(0,0,width,height)
     end))
     self._hover:hide()
-    self._focus()
+    self._focus = false
 
     Mesh.init(self, nil, args)
     self:focusout()
