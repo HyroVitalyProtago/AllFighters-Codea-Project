@@ -33,7 +33,7 @@ function IText:init(args)
     self.fontSize = args.fontSize or args.height/2
     self.cursorColor = args.cursorColor or color(0, 0, 255, 255)
     self.focusColor = args.focusColor or color(230, 230, 230, 255)
-    -- self.hoverColor = args.hoverColor or color(0, 0, 255, 255)
+    self.hoverColor = args.hoverColor or color(0, 0, 0, 70)
     self.strokeColor = args.strokeColor or color(0, 0, 0, 255)
     self.strokeWidth = args.strokeWidth or 3
     self.cursorSpeed = args.cursorSpeed or 0.25
@@ -47,7 +47,7 @@ function IText:init(args)
     -- Back
     self._focus = false
     self._hover = Mesh.makeMesh(image(args.width, args.height, function(width, height)
-        fill(0,0,0,100)
+        fill(self.hoverColor)
         rect(0,0,width,height)
     end))
     self._hover:hide()
