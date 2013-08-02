@@ -54,6 +54,12 @@ function ISelect:hoverout()
     self._hover:hide()
 end
 
+function IText:focus(bool)
+    if bool == nil then return self._focus end
+    if bool and not self._focus then self:focusin() elseif not bool and self._focus then self:focusout() end
+    self._focus = bool
+end
+
 function ISelect:focusin()
 end
 
