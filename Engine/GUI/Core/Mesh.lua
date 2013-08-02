@@ -91,25 +91,25 @@ function Mesh.makeMesh(spr, _args) -- Make a plane with a sprite texture
     args.height = args.height or h
 
     local myMesh = mesh()
-    myMesh:addRect(0,0,args.width,args.height)
-    -- myMesh.vertices = {
-    --     vec3(0,0,0),
-    --     vec3(args.width,0,0),
-    --     vec3(args.width,args.height,0),
 
-    --     vec3(0,0,0),
-    --     vec3(0,args.height,0),
-    --     vec3(args.width,args.height,0)
-    -- }
-    -- myMesh.texCoords = {
-    --     vec2(0,0),
-    --     vec2(1,0),
-    --     vec2(1,1),
+    myMesh.vertices = {
+        vec3(0,0,0),
+        vec3(args.width,0,0),
+        vec3(args.width,args.height,0),
 
-    --     vec2(0,0),
-    --     vec2(0,1),
-    --     vec2(1,1)
-    -- }
+        vec3(0,0,0),
+        vec3(0,args.height,0),
+        vec3(args.width,args.height,0)
+    }
+    myMesh.texCoords = {
+        vec2(0,0),
+        vec2(1,0),
+        vec2(1,1),
+
+        vec2(0,0),
+        vec2(0,1),
+        vec2(1,1)
+    }
     
     if not args.color then args.color = color(255, 255, 255, 255) end
     myMesh:setColors(args.color.r,args.color.g,args.color.b,args.color.a)
