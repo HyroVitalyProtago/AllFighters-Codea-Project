@@ -118,9 +118,20 @@ end
 
 function ISelect:touched(touch, focusAvailable)
 	if touch.state == ENDED then
+		if self:isTouched(touch) and focusAvailable then
+            if self:focus() then
+            else
+            	self:focus(true)
+            end
+        else
+        end
+        return true
 	elseif self:isTouched(touch) and not self:focus() then
         self:hoverin()
+        return true
     else
         self:hoverout()
+        return true
     end
+    return false
 end
