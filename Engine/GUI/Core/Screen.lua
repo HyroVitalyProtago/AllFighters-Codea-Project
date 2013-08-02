@@ -85,10 +85,10 @@ function Screen:draw()
         )
         
         translate(self.pos.x, self.pos.y, self.pos.z)
-        rotate(self.angle.x, self.angle.y, self.angle.z)
-        -- rotate(self.angle.x, 1, 0, 0)
-        -- rotate(self.angle.y, 0, 1, 0)
-        -- rotate(self.angle.z, 0, 0, 1)
+        -- rotate(self.angle.x, self.angle.y, self.angle.z)
+        rotate(self.angle.x, 1, 0, 0)
+        rotate(self.angle.y, 0, 1, 0)
+        rotate(self.angle.z, 0, 0, 1)
         
         if self.background then
             pushStyle()
