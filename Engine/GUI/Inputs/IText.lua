@@ -120,7 +120,6 @@ end
 
 function IText:draw()
     pushStyle()
-    -- if not isKeyboardShowing() and self:focus() then showKeyboard() end
     
     if self._text then
         self._text.pos.x = self.pos.x - self.dim.w/2 + self._text.dim.w/2 + 10
@@ -200,6 +199,7 @@ function IText:touched(touch, focusAvailable)
             print('touched !')
             if focusAvailable then
                 print('focusAvailable !')
+                print(tostring(self:focus()))
                 if self:focus() then
                     self:hoverout()
                     showKeyboard()
