@@ -45,15 +45,23 @@ end
 function Screen:start() end -- @Overwrite
 
 function Screen:fadeIn(duration, easeType, callback)
+    self:show()
     for _, v in pairs(self.meshes) do
-        v:fadeIn(duration, easeType, callback)
+        v:fadeIn(duration, easeType)
     end
+    tween.delay(duration, function()
+        callback()
+    end)
 end
 
 function Screen:fadeOut(duration, easeType, callback)
     for _, v in pairs(self.meshes) do
-        v:fadeOut(duration, easeType, callback)
+        v:fadeOut(duration, easeType)
     end
+    tween.delay(duration, function()
+        self:hide()
+        callback()
+    end)
 end
 
 function Screen:hide() self.visible = false end
