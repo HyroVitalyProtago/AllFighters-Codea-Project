@@ -59,6 +59,7 @@ function ISelect:init(args)
         local w2 =  w/7
         local w3 = (w2 - 2*(w2/5))/2 + (w2/5)
         line(w - w2, 0, w - w2, h)
+        strokeWidth(self.strokeWidth)
         line(w - w2 + w2/5, h - h/5, w - w3, h/5)
         line(w - w2/5, h - h/5, w - w3, h/5)
     end)
