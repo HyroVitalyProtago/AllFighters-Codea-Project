@@ -204,10 +204,6 @@ function IText:touched(touch, focusAvailable)
         print('focus false')
     elseif touch.state == ENDED and not self:isTouched(touch) then
         print('focus false')
-    elseif touch.state ~= ENDED and self:isTouched(touch) and not self:focus() then
-        print('hoverin')
-    else
-        print('hoverout')
     end
 
 
@@ -249,6 +245,7 @@ function IText:touched(touch, focusAvailable)
     else
         self:hoverout()
     end -- end of touch ended
+    return false
 end
 
 function IText:onchange() end -- @Overwrite (declench if value change)
