@@ -198,43 +198,42 @@ function IText:focusout() end
 function IText:touched(touch, focusAvailable)
     if touch.state == ENDED then
         if self:isTouched(touch) then
-            print(tostring(focusAvailable), tostring(self:focus()))
-        end
-        if self:isTouched(touch) and focusAvailable then
-            if self:focus() then
-                self:hoverout()
-                showKeyboard()
-                -- location current cursor
-                local len = string.len(self:val())
-                if len == 0 then return end
-                local origin = self.pos.x - self.dim.w/2 + self._cursor.dim.w/2
-                local diff = touch.x - origin
-                for i = 0, len do
-                    local value = self.value
-                    font(self.font)
-                    fontSize(self.fontSize)
-                    valueW, valueH = textSize(string.sub(value, 0, i))
-                    -- print(i, valueW, diff)
-                    if (diff < valueW) then
-                        self.cursor = i-1
-                        return true
+            if focusAvailable then
+                if self:focus() then
+                    self:hoverout()
+                    showKeyboard()
+                    -- location current cursor
+                    local len = string.len(self:val())
+                    if len == 0 then return end
+                    local origin = self.pos.x - self.dim.w/2 + self._cursor.dim.w/2
+                    local diff = touch.x - origin
+                    for i = 0, len do
+                        local value = self.value
+                        font(self.font)
+                        fontSize(self.fontSize)
+                        valueW, valueH = textSize(string.sub(value, 0, i))
+                        if (diff < valueW) then
+                            self.cursor = i-1
+                            return true
+                        end
                     end
+                    self.cursor = len
+                else
+                    self:focus(true)
                 end
-                self.cursor = len
-            else
-                self:focus(true)
-            end
-            return true
-        else
-            if self:focus() then
+                return true
+
+            elseif self:focus() then -- not focusAvailable
                 self:focus(false)
             end
-        end
-    elseif self:isTouched(touch) and not self:focus() then
+        elseif self:focus() then  -- not self:isTouched(touch)
+            self:focus(false)
+        end -- end of self:isTouched(touch)
+    elseif self:isTouched(touch) and not self:focus() then -- not touch.state == ENDED
         self:hoverin()
     else
         self:hoverout()
-    end
+    end -- end of touch ended
 end
 
 function IText:onchange() end -- @Overwrite (declench if value change)
