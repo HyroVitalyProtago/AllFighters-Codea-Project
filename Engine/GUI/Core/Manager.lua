@@ -42,6 +42,9 @@ function Manager:draw()
             fill(0,0,0)
             rect(WIDTH - w/2, HEIGHT - h/2, w, h)
 
+            font("HelveticaNeue-Light")
+            fontSize(20)
+
             fill(255,255,255)
             text(FPS,WIDTH - w/2, HEIGHT - h/2)
         popStyle()
