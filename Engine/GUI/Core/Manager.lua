@@ -10,7 +10,7 @@ function Manager:init(screen, madeWithCodea, viewTouches, viewFps)
     self.viewTouches = viewTouches or false
     self.touches = {}
 
-    self.viewFps = self.viewFps or false
+    self.viewFps = viewFps or false
     
     if madeWithCodea == nil then madeWithCodea = true end
     if madeWithCodea then 
@@ -37,9 +37,8 @@ function Manager:draw()
     popMatrix()
 
     if self.viewFps then
-        print('viewFps !')
         pushStyle()
-            local w, h = WIDHT, HEIGHT
+            local w, h = 50,50
             fill(0,0,0)
             rect(WIDTH - w/2, HEIGHT - h/2, w, h)
 
