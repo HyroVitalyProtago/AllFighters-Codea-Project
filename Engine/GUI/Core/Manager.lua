@@ -36,6 +36,8 @@ function Manager:draw()
     popStyle()
     popMatrix()
 
+    resetMatrix()
+
     if (self.viewFps) then
         pushStyle()
             local w, h = 50, 50
