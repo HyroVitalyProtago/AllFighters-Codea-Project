@@ -133,21 +133,23 @@ function Mesh:insertIn(arrays)
 end
 
 function Mesh:isTouched(touch, offset) -- for the moment, work only with plane
+    offset = offset or {left=0, top=0, right=0, bottom=0}
 
     self._smatrix = self._matrix
     local tc = screentoplane(touch, vec3(0,0,0), vec3(1,0,0), vec3(0,1,0), self._smatrix)
-    if tc.x < 0 or tc.x > self.dim.w or tc.y < 0 or tc.y > self.dim.h then
+    if tc.x < 0 - offset.left or tc.x > self.dim.w + offset.right or tc.y < 0 - offset.bottom or tc.y > self.dim.h + offset.top then
         return false
     end
     
-    return true
+    return true, vec2(tc.x, tc.y)
 end
 
 -- focusAvailable indic if you can catch the focus (~ if an another object before have catch the focus)
 -- return true if the object want catch the focus, else false
 function Mesh:touched(touch, focusAvailable)
-    if (touch.state == ENDED and self:isTouched(touch) and focusAvailable) then
-        return self:ctouched()
+    local isTouched, location = self:isTouched(touch)
+    if (touch.state == ENDED and isTouched and focusAvailable) then
+        return self:ctouched(location)
     end
     return false
 end
