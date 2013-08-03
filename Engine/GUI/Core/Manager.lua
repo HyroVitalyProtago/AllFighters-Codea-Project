@@ -23,53 +23,64 @@ end
 function Manager:draw()
     Manager.FPS = Manager.FPS*.9+.1/DeltaTime
     
-    if self.currentState == nil then return end
-    
-    self.currentState:draw()
-    if self.currentState:isEnded() then
-        self.currentState:ended()
+    if self.currentState == nil then
+        return
     end
     
-    resetMatrix()
-    resetStyle()
+    pushMatrix()
+    pushStyle()
+        self.currentState:draw()
+        if self.currentState:isEnded() then
+            self.currentState:ended()
+        end
+    popStyle()
+    popMatrix()
 
     if self.viewFps then
         pushStyle()
-        local w, h = 75,75
-        fill(0,0,0)
-        rect(WIDTH - w/2, HEIGHT - h/2, w, h)
+            local w, h = 50,50
+            fill(0,0,0)
+            rect(WIDTH - w/2, HEIGHT - h/2, w, h)
 
-        font("HelveticaNeue-Light")
-        fontSize(20)
+            font("HelveticaNeue-Light")
+            fontSize(20)
 
-        fill(255,255,255)
-        text(Manager.FPS,WIDTH - w/2, HEIGHT - h/2)
+            fill(255,255,255)
+            text(Manager.FPS,WIDTH - w/2, HEIGHT - h/2)
         popStyle()
     end
     
     for k,touch in pairs(self.touches) do
-        -- if (self.viewTouches) then
-        --     math.randomseed(touch.id)
-        --     pushStyle()
-        --         fill(math.random(255),math.random(255),math.random(255))
-        --         ellipse(touch.x, touch.y, 100, 100)
-        --     popStyle()
-        -- end
-        if self.currentState ~= nil then self.currentState:touched(touch) end
+        if (self.viewTouches) then
+            math.randomseed(touch.id)
+            pushStyle()
+                fill(math.random(255),math.random(255),math.random(255))
+                ellipse(touch.x, touch.y, 100, 100)
+            popStyle()
+        end
+        if self.currentState ~= nil then
+            self.currentState:touched(touch)
+        end
     end
 
 end
 
 function Manager:setCurrentState(state, start)
     self.currentState = state
-    if start == nil or start then state:start() end
+    if start == nil or start then
+        state:start()
+    end
 end
 
-function Manager:touched(touch) self:_touches(touch) end
+function Manager:touched(touch)
+    self:_touches(touch)
+end
 
 function Manager:_touches(touch)
     if touch.state == ENDED then
-        if self.currentState ~= nil then self.currentState:touched(touch) end
+        if self.currentState ~= nil then
+            self.currentState:touched(touch)
+        end
         self.touches[touch.id] = nil
     else
         self.touches[touch.id] = touch
@@ -77,5 +88,7 @@ function Manager:_touches(touch)
 end
 
 function Manager:keyboard(key)
-    if self.currentState then self.currentState:keyboard(key) end
+    if self.currentState then
+        self.currentState:keyboard(key)
+    end
 end
