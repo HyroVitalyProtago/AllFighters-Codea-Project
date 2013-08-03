@@ -196,17 +196,6 @@ end
 function IText:focusout() end
 
 function IText:touched(touch, focusAvailable)
-
-    if touch.state == ENDED and self:isTouched(touch) and focusAvailable and self:focus() then
-    elseif touch.state == ENDED and self:isTouched(touch) and focusAvailable and not self:focus() then
-        print('focus true')
-    elseif touch.state == ENDED and self:isTouched(touch) and not focusAvailable then
-        print('focus false')
-    elseif touch.state == ENDED and not self:isTouched(touch) then
-        print('focus false')
-    end
-
-
     if touch.state == ENDED then
         if self:isTouched(touch) then
             if focusAvailable then
@@ -234,17 +223,22 @@ function IText:touched(touch, focusAvailable)
                 end
                 return true
 
-            elseif self:focus() then -- not focusAvailable
-                self:focus(false)
+            -- not focusAvailable
+            -- elseif self:focus() then
+            --     self:focus(false)
             end
-        elseif self:focus() then  -- not self:isTouched(touch)
+
+        -- not self:isTouched(touch)
+        elseif self:focus() then
             self:focus(false)
-        end -- end of self:isTouched(touch)
-    elseif self:isTouched(touch) and not self:focus() then -- not touch.state == ENDED
+        end
+
+    -- not touch.state == ENDED
+    elseif self:isTouched(touch) and not self:focus() then
         self:hoverin()
     else
         self:hoverout()
-    end -- end of touch ended
+    end
     return false
 end
 
