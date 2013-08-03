@@ -84,7 +84,7 @@ end
 
 function ISelect:focusout()
 	-------------------------------------------------- Text -------------------------------------------------
-    self._text = Mesh.makeTextMesh(self.value, {
+    self._text = Mesh.makeTextMesh(self.list[self.value], {
         font=self.font,
         fontSize=self.fontSize,
         fill=self.textColor
