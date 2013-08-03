@@ -35,7 +35,6 @@ function Manager:draw()
         end
     popStyle()
     popMatrix()
-    resetMatrix()
 
     if (self.viewFps) then
         pushStyle()
@@ -47,7 +46,7 @@ function Manager:draw()
             fontSize(20)
 
             fill(255,255,255)
-            text(FPS,WIDTH - w/2, HEIGHT - h/2)
+            text(Manager.FPS,WIDTH - w/2, HEIGHT - h/2)
         popStyle()
     end
     
