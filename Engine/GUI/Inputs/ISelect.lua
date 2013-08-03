@@ -55,9 +55,12 @@ function ISelect:init(args)
         strokeWidth(self.strokeWidth)
         rect(0, 0, w, h)
         fill(self.strokeColor)
-        line(w - 50, 0, w - 50, h)
-        line(w - 45, h - 10, w - 26, 10)
-        line(w - 7.5, h - 10, w - 26, 10)
+        strokeWidth(self.strokeWidth*0.5)
+        local w2 =  w/7
+        local w3 = (w2 - 2*(w2/5))/2
+        line(w - w2, 0, w - w2, h)
+        line(w - w2 + w2/5, h - h/5, w - w3, h/5)
+        line(w - w2/5, h - h/5, w - w3, h/5)
     end)
     pmesh.texture = spr
     Mesh.init(self, pmesh, args)
