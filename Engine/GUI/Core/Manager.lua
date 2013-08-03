@@ -36,9 +36,8 @@ function Manager:draw()
     popStyle()
     popMatrix()
 
-    resetMatrix()
-
     if self.viewFps then
+        print('viewFps !')
         pushStyle()
             local w, h = WIDHT, HEIGHT
             fill(0,0,0)
