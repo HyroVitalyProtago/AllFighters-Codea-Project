@@ -38,9 +38,9 @@ function Manager:draw()
 
     resetMatrix()
 
-    if (self.viewFps) then
+    if self.viewFps then
         pushStyle()
-            local w, h = 50, 50
+            local w, h = WIDHT, HEIGHT
             fill(0,0,0)
             rect(WIDTH - w/2, HEIGHT - h/2, w, h)
 
