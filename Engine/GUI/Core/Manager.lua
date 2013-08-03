@@ -48,7 +48,7 @@ function Manager:draw()
         popStyle()
     end
     
-    -- for k,touch in pairs(self.touches) do
+    for k,touch in pairs(self.touches) do
         -- if (self.viewTouches) then
         --     math.randomseed(touch.id)
         --     pushStyle()
@@ -56,8 +56,8 @@ function Manager:draw()
         --         ellipse(touch.x, touch.y, 100, 100)
         --     popStyle()
         -- end
-        -- if self.currentState ~= nil then self.currentState:touched(touch) end
-    -- end
+        if self.currentState ~= nil then self.currentState:touched(touch) end
+    end
 
 end
 
@@ -66,10 +66,7 @@ function Manager:setCurrentState(state, start)
     if start == nil or start then state:start() end
 end
 
-function Manager:touched(touch)
-    if self.currentState ~= nil then self.currentState:touched(touch) end
-    -- self:_touches(touch)
-end
+function Manager:touched(touch) self:_touches(touch) end
 
 function Manager:_touches(touch)
     if touch.state == ENDED then
