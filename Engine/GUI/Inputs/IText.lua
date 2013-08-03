@@ -199,6 +199,7 @@ function IText:touched(touch, focusAvailable)
     if touch.state == ENDED then
         if self:isTouched(touch) then
             if focusAvailable then
+                print()
                 if self:focus() then
                     self:hoverout()
                     showKeyboard()
@@ -231,6 +232,7 @@ function IText:touched(touch, focusAvailable)
         -- not self:isTouched(touch)
         elseif self:focus() then
             self:focus(false)
+            return false
         end
 
     -- not touch.state == ENDED
