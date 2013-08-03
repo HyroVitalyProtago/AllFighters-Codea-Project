@@ -197,6 +197,7 @@ function IText:focusout() end
 
 function IText:touched(touch, focusAvailable)
     if touch.state == ENDED then
+        print(tostring(self:isTouched(touch)), tostring(focusAvailable))
         if self:isTouched(touch) and focusAvailable then
             if self:focus() then
                 self:hoverout()
