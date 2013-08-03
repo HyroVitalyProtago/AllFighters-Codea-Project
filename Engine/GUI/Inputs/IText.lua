@@ -59,7 +59,6 @@ function IText:init(args)
     
     Mesh.init(self, pmesh, args)
     self:update()
-    
 end
 
 function IText:update()
@@ -178,11 +177,11 @@ end
 function IText:focus(bool)
     if bool == nil then return self._focus end
     if bool and not self._focus then self:focusin() elseif not bool and self._focus then self:focusout() end
-    self._focus = bool
     self:update()
 end
 
 function IText:focusin()
+    self._focus = true
     self:hoverout()
     self.lastValue = self.value
     if self.value == nil then
@@ -193,7 +192,7 @@ function IText:focusin()
     showKeyboard()
 end
 
-function IText:focusout() end
+function IText:focusout() self._focus = false end
 
 function IText:touched(touch, focusAvailable)
     if touch.state == ENDED then
@@ -233,7 +232,6 @@ function IText:touched(touch, focusAvailable)
         -- not self:isTouched(touch)
         elseif self:focus() then
             self:focus(false)
-            return false
         end
 
     -- not touch.state == ENDED
