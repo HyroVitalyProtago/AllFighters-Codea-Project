@@ -2,7 +2,7 @@ Manager = class()
 
 Manager.FPS = 0
 
-function Manager:init(screen, madeWithCodea, viewTouches, viewFps)
+function Manager:init(screen, madeWithCodea, viewFps, viewTouches)
     assert(screen ~= nil, "Manager can't start without screen...")
 
     self.currentState = nil
@@ -62,7 +62,6 @@ function Manager:draw()
             self.currentState:touched(touch)
         end
     end
-
 end
 
 function Manager:setCurrentState(state, start)

@@ -53,7 +53,7 @@ function Mesh:fadeOut(duration, easeType, callback)
 end
 
 function Mesh:draw()
-    if not self.mesh then return end
+    if not self.mesh or self.alpha == 0 then return end
     
     pushMatrix()
     self.mesh:setColors(color(255,255,255,self.alpha))
@@ -64,7 +64,6 @@ function Mesh:draw()
         translate(self.pos.x, self.pos.y, self.pos.z)
     end
 
-    -- rotate(self.angle.x, self.angle.y, self.angle.z)
     rotate(self.angle.x, 1,0,0)
     rotate(self.angle.y, 0,1,0)
     rotate(self.angle.z, 0,0,1)
@@ -79,7 +78,7 @@ function Mesh.makeMesh(spr, _args) -- Make a plane with a sprite texture
 
     local args = {}
 
-    -- for not touch at origin table
+    -- for not change the origin table
     if _args ~= nil then
         for k,v in pairs(_args) do
             args[k] = v
