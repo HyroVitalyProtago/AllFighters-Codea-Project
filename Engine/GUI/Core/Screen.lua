@@ -136,10 +136,9 @@ function Screen:touched(touch)
 
     local focusAvailable = true
     local focusCatched, focusKeeped = self:btouched(touch, focusAvailable and not self.focusKeeped)
-    local focusAvailable = self:focus(focusAvailable, focusCatched, focusKeeped)
+    focusAvailable = self:focus(focusAvailable, focusCatched, focusKeeped)
 
     for _, v in pairs(tbl) do
-        print(focusAvailable)
         -- touched return true if object catch the focus; 1 if object keep the focus, -1 if object return the focus
         focusCatched, focusKeeped = v:touched(touch, focusAvailable and not self.focusKeeped)
         focusAvailable = self:focus(focusAvailable, focusCatched, focusKeeped)
