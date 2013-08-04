@@ -114,7 +114,7 @@ function Screen:ended() end -- @Overwrite
 
 function Screen:btouched(touch, focusAvailable) end -- custom touch before element
 function Screen:atouched(touch, focusAvailable) end -- custom touch after element
-function Screen:focus(focusCatched, focusKeeped) -- gestion of focus for touch
+function Screen:focus(focusAvailable, focusCatched, focusKeeped) -- gestion of focus for touch
     if focusCatched then focusAvailable = false end
     if focusKeeped and focusKeeped == 1 then
         assert(focusKeeped == 1 and not self.focusKeeped, "Focus already keeped...")
@@ -133,14 +133,14 @@ function Screen:touched(touch)
     end)
 
     local focusAvailable = true
-    local focusAvailable = self:focus(self:btouched(touch, focusAvailable and not self.focusKeeped))
+    local focusAvailable = self:focus(focusAvailable, self:btouched(touch, focusAvailable and not self.focusKeeped))
 
     for _, v in pairs(tbl) do
         -- touched return true if object catch the focus; 1 if object keep the focus, -1 if object return the focus
-        focusAvailable = self:focus(v:touched(touch, focusAvailable and not self.focusKeeped))
+        focusAvailable = self:focus(focusAvailable, v:touched(touch, focusAvailable and not self.focusKeeped))
     end
 
-    focusAvailable = self:focus(self:atouched(touch, focusAvailable and not self.focusKeeped))
+    focusAvailable = self:focus(focusAvailable, self:atouched(touch, focusAvailable and not self.focusKeeped))
 end
 
 function Screen:keyboard(key)
