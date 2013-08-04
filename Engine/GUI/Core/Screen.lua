@@ -124,7 +124,7 @@ function Screen:focus(focusCatched, focusKeeped) -- gestion of focus for touch
         assert(focusKeeped == -1 and self.focusKeeped, "Impossible to give back focus because it was not keeped...")
         self.focusKeeped = false
     end
-    return focusCatched, focusKeeped
+    return focusAvailable
 end
 function Screen:touched(touch)
     local tbl = table.copy(self.meshes)
@@ -133,14 +133,14 @@ function Screen:touched(touch)
     end)
 
     local focusAvailable = true
-    local focusCatched, focusKeeped = self:focus(self:btouched(touch, focusAvailable and not self.focusKeeped))
+    local focusAvailable = self:focus(self:btouched(touch, focusAvailable and not self.focusKeeped))
 
     for _, v in pairs(tbl) do
         -- touched return true if object catch the focus; 1 if object keep the focus, -1 if object return the focus
-        focusCatched, focusKeeped = self:focus(v:touched(touch, focusAvailable and not self.focusKeeped))
+        focusAvailable = self:focus(v:touched(touch, focusAvailable and not self.focusKeeped))
     end
 
-    focusCatched, focusKeeped = self:focus(self:atouched(touch, focusAvailable and not self.focusKeeped))
+    focusAvailable = self:focus(self:atouched(touch, focusAvailable and not self.focusKeeped))
 end
 
 function Screen:keyboard(key)
