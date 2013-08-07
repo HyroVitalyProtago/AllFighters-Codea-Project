@@ -71,6 +71,7 @@ function Screen:draw()
         return a.pos.z < b.pos.z
     end)
     
+    pushMatrix()
     perspective(self.fieldOfView, WIDTH/HEIGHT)
     camera(
         self.eye.x,self.eye.y,self.eye.z,
@@ -107,6 +108,7 @@ function Screen:draw()
     
     viewMatrix(matrix())
     ortho()
+    popMatrix()
 end
 
 function Screen:isEnded() return false end -- @Overwrite
@@ -114,7 +116,15 @@ function Screen:ended() end -- @Overwrite
 
 function Screen:btouched(touch, focusAvailable) end -- custom touch before element
 function Screen:atouched(touch, focusAvailable) end -- custom touch after element
-function Screen:focus(focusCatched, focusKeeped) -- gestion of focus for touch
+
+function Screen:touched(touch)
+    local tbl = table.copy(self.meshes)
+    table.sort(tbl, function(a, b)
+        return a.pos.z > b.pos.z
+    end)
+
+    local focusAvailable = true
+    local focusCatched, focusKeeped = self:btouched(touch, focusAvailable and not self.focusKeeped)
     if focusCatched then focusAvailable = false end
     if focusKeeped and focusKeeped == 1 then
         assert(focusKeeped == 1 and not self.focusKeeped, "Focus already keeped...")
@@ -124,23 +134,31 @@ function Screen:focus(focusCatched, focusKeeped) -- gestion of focus for touch
         assert(focusKeeped == -1 and self.focusKeeped, "Impossible to give back focus because it was not keeped...")
         self.focusKeeped = false
     end
-    return focusAvailable
-end
-function Screen:touched(touch)
-    local tbl = table.copy(self.meshes)
-    table.sort(tbl, function(a, b)
-        return a.pos.z > b.pos.z
-    end)
-
-    local focusAvailable = true
-    local focusAvailable = self:focus(self:btouched(touch, focusAvailable and not self.focusKeeped))
 
     for _, v in pairs(tbl) do
         -- touched return true if object catch the focus; 1 if object keep the focus, -1 if object return the focus
-        focusAvailable = self:focus(v:touched(touch, focusAvailable and not self.focusKeeped))
+        focusCatched, focusKeeped = v:touched(touch, focusAvailable and not self.focusKeeped)
+        if focusCatched then focusAvailable = false end
+        if focusKeeped and focusKeeped == 1 then
+            assert(focusKeeped == 1 and not self.focusKeeped, "Focus already keeped...")
+            self.focusKeeped = true
+        end
+        if focusKeeped and focusKeeped == -1 then
+            assert(focusKeeped == -1 and self.focusKeeped, "Impossible to give back focus because it was not keeped...")
+            self.focusKeeped = false
+        end
     end
 
-    focusAvailable = self:focus(self:atouched(touch, focusAvailable and not self.focusKeeped))
+    focusCatched, focusKeeped = self:atouched(touch, focusAvailable and not self.focusKeeped)
+    if focusCatched then focusAvailable = false end
+    if focusKeeped and focusKeeped == 1 then
+        assert(focusKeeped == 1 and not self.focusKeeped, "Focus already keeped...")
+        self.focusKeeped = true
+    end
+    if focusKeeped and focusKeeped == -1 then
+        assert(focusKeeped == -1 and self.focusKeeped, "Impossible to give back focus because it was not keeped...")
+        self.focusKeeped = false
+    end
 end
 
 function Screen:keyboard(key)
