@@ -55,10 +55,11 @@ function Screen:fadeOut(duration, easeType, callback)
     for _, v in pairs(self.meshes) do
         v:fadeOut(duration, easeType)
     end
-    this = self
+    local hide = function()
+        self:hide()
+    end
     tween.delay(duration, function()
-        this:hide()
-        this = nil
+        hide()
         callback()
     end)
 end
