@@ -133,17 +133,14 @@ function Screen:touched(touch)
     end)
 
     local focusAvailable = true
-    local focusCatched, focusKeeped = self:btouched(touch, focusAvailable and not self.focusKeeped)
-    local focusAvailable = self:focus(focusAvailable, focusCatched, focusKeeped)
+    local focusAvailable = self:focus(focusAvailable, self:btouched(touch, focusAvailable and not self.focusKeeped))
 
     for _, v in pairs(tbl) do
         -- touched return true if object catch the focus; 1 if object keep the focus, -1 if object return the focus
-        focusCatched, focusKeeped = v:touched(touch, focusAvailable and not self.focusKeeped)
-        focusAvailable = self:focus(focusAvailable, focusCatched, focusKeeped)
+        focusAvailable = self:focus(focusAvailable, v:touched(touch, focusAvailable and not self.focusKeeped))
     end
 
-    focusCatched, focusKeeped = self:atouched(touch, focusAvailable and not self.focusKeeped)
-    focusAvailable = self:focus(focusAvailable, focusCatched, focusKeeped)
+    focusAvailable = self:focus(focusAvailable, self:atouched(touch, focusAvailable and not self.focusKeeped))
 end
 
 function Screen:keyboard(key)
