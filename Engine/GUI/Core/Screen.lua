@@ -71,7 +71,6 @@ function Screen:draw()
         return a.pos.z < b.pos.z
     end)
     
-    pushMatrix()
     perspective(self.fieldOfView, WIDTH/HEIGHT)
     camera(
         self.eye.x,self.eye.y,self.eye.z,
@@ -108,7 +107,6 @@ function Screen:draw()
     
     viewMatrix(matrix())
     ortho()
-    popMatrix()
 end
 
 function Screen:isEnded() return false end -- @Overwrite
