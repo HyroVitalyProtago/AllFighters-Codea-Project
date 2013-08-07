@@ -46,7 +46,7 @@ function Manager:draw()
             fontSize(20)
 
             fill(255,255,255)
-            text(math.floor(Manager.FPS),WIDTH - w/2, HEIGHT - h/2)
+            text(Manager.FPS,WIDTH - w/2, HEIGHT - h/2)
         popStyle()
     end
     
